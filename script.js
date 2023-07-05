@@ -1,35 +1,33 @@
 //your code here
-function sortBandNames(bandNames) {
-  // Define the list of articles to be excluded
-  const articles = ['a', 'an', 'the'];
+let touristSpots = ['The Virupaksha Temple', 'Victoria Memorial', 'Tajmahal'];
 
-  // Remove articles from band names and store in a new array
-  const sanitizedBandNames = bandNames.map((name) => {
-    // Split the name into individual words
-    const words = name.split(' ');
+// Remove any articles from the band names.
+const bandNamesWithoutArticles = bandNames.map(bandName => {
+  if (bandName.startsWith("The ")) {
+    return bandName.slice(4);
+  } else if (bandName.startsWith("A ")) {
+    return bandName.slice(2);
+  } else if (bandName.startsWith("An ")) {
+    return bandName.slice(3);
+  } else {
+    return bandName;
+  }
+});
 
-    // Filter out articles from the words array
-    const filteredWords = words.filter((word) => !articles.includes(word.toLowerCase()));
+// Sort the band names in lexicographical order.
+bandNamesWithoutArticles.sort();
 
-    // Join the filtered words to form the sanitized name
-    const sanitizedName = filteredWords.join(' ');
+// Create an `ul` element with the id `band`.
+const bandList = document.createElement("ul");
+bandList.setAttribute("id", "band");
 
-    return sanitizedName;
-  });
+// Add the band names to the `ul` element.
+bandNamesWithoutArticles.forEach(bandName => {
+  const liElement = document.createElement("li");
+  liElement.textContent = bandName;
+  bandList.appendChild(liElement);
+});
 
-  // Sort the sanitized band names in lexicographic order
-  const sortedBandNames = sanitizedBandNames.sort((a, b) => a.localeCompare(b));
-
-  // Generate the HTML for displaying the sorted band names
-  const html = sortedBandNames.map((name) => `<li>${name}</li>`).join('');
-
-  // Return the HTML string
-  return html;
-}
-
-// Example usage
-const bandNames = ['The Virupaksha Temple', 'Victoria Memorial', 'Tajmahal'];
-const sortedBandsHTML = sortBandNames(bandNames);
-const ulElement = `<ul id="band">${sortedBandsHTML}</ul>`;
-console.log(ulElement);
+// Append the `ul` element to the document body.
+document.body.appendChild(bandList);
 
